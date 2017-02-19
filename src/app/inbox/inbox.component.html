@@ -1,0 +1,32 @@
+<div style="background-color: #fff;width:85%;margin-left:9%;margin-bottom: 2%">
+  <div *ngFor="let user of messagerList | async">
+    <div *ngIf="user.email != loggedInUserEmail">
+      <md-card style="overflow:hidden">
+        <div style="float:left;width:150px;height:150px;padding-right:10px">
+          <div style="border-right:1px solid#3b5998">
+            <img [src]="user.photoURL" style="width: 100px;height: 100px;border-radius: 50%;" />
+          </div>
+        </div>
+        <div style="float:left">
+          <p>
+            Display Name:
+            <span>{{user.displayName}}</span>
+          </p>
+          <p>
+            Email:
+            <span>{{user.email}}</span>
+          </p>
+          <p>
+            Private Message:
+            <button md-fab class="btn-success" (click)="createPrivateRoom(user.senderId,user.displayName,user.email,user.photoURL)">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              </button>
+          </p>
+        </div>
+      </md-card>
+    </div>
+  </div>
+</div>
+<div *ngIf="showLoader">
+  <loaders-css [loader]="'pacman'" [loaderClass]="'my-loader'"></loaders-css>
+</div>

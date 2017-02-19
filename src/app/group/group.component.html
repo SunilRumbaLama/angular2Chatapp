@@ -1,0 +1,34 @@
+<md-input-container style="margin-left:9%">
+  <input md-input placeholder="Group Name" [(ngModel)]="groupName">
+</md-input-container>
+<a md-raised-button style="text-decoration: none" class="btn-success" (click)="createNewRoom()">Create</a>
+<div style="background-color: #fff;width:85%;margin-left:9%;margin-bottom: 2%">
+  <div *ngFor="let group of groups | async">
+    <md-card style="overflow:hidden">
+      <div style="float:left;width:150px;height:150px;padding-right:10px">
+        <div style="border-right:1px solid#3b5998">
+          <img [src]="group.photoURL" style="width: 100px;height: 100px;border-radius: 50%;" />
+        </div>
+      </div>
+      <div style="float:left">
+        <p>
+          Group Name:
+          <span>{{group.groupName}}</span>
+        </p>
+        <p>
+          Adder Name:
+          <span>{{group.displayName}}</span>
+        </p>
+        <p>
+          Enter Room:
+          <button md-fab class="btn-success" (click)="chatRoom(group.groupName)">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              </button>
+        </p>
+      </div>
+    </md-card>
+  </div>
+</div>
+<div *ngIf="showLoader">
+  <loaders-css [loader]="'pacman'" [loaderClass]="'my-loader'"></loaders-css>
+</div>

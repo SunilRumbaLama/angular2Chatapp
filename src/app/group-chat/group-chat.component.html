@@ -1,0 +1,155 @@
+<!--popup after the user clicks the users icon-->
+<div style="text-align: center"><span>Group Name: {{roomName}}</span></div>
+<dx-popup [width]="817" [height]="515" [showTitle]="true" title="Users Registered" [dragEnabled]="false" [closeOnOutsideClick]="true"
+  [(visible)]="popupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view #scrollView id="scrollview" [scrollByThumb]="true" [showScrollbar]="true">
+      <div *ngFor="let user of users | async">
+        <div *ngIf="user.email != loggedInUserEmail">
+          <md-card style="overflow:hidden">
+            <div style="float:left;width:150px;height:150px;padding-right:10px">
+              <div style="border-right:1px solid#3b5998">
+                <img [src]="user.photoURL" style="width: 100px;height: 100px;border-radius: 50%;" />
+              </div>
+            </div>
+            <div style="float:left">
+              <p>
+                Display Name:
+                <span>{{user.displayName}}</span>
+              </p>
+              <p>
+                Email:
+                <span>{{user.email}}</span>
+              </p>
+              <p>
+                Private Message:
+                <button md-fab class="btn-success" (click)="addUser(user.uid,user.displayName,user.email,user.photoURL)">
+              <i class="fa fa-plus-square" aria-hidden="true"></i>
+              </button>
+              </p>
+            </div>
+          </md-card>
+        </div>
+        <br>
+      </div>
+    </dx-scroll-view>
+  </div>
+  </dx-popup>
+  <dx-popup [width]="817" [height]="515" [showTitle]="true" title="Users in Room" [dragEnabled]="false" [closeOnOutsideClick]="true"
+    [(visible)]="userListVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view #scrollView id="scrollview" [scrollByThumb]="true" [showScrollbar]="true">
+        <div *ngFor="let user of userInRoom | async">
+          <div *ngIf="user.email != loggedInUserEmail">
+            <md-card style="overflow:hidden">
+              <div style="float:left;width:150px;height:150px;padding-right:10px">
+                <div style="border-right:1px solid#3b5998">
+                  <img [src]="user.photoURL" style="width: 100px;height: 100px;border-radius: 50%;" />
+                </div>
+              </div>
+              <div style="float:left">
+                <p>
+                  Display Name:
+                  <span>{{user.displayName}}</span>
+                </p>
+                <p>
+                  Email:
+                  <span>{{user.email}}</span>
+                </p>
+              </div>
+            </md-card>
+          </div>
+          <br>
+        </div>
+      </dx-scroll-view>
+    </div>
+    </dx-popup>
+    <div class="row" style="width: 90%;margin-left: 6%;">
+      <div class="col-md-8 col-md-offset-2">
+        <div #scrollMe class="bs-example" id="messages">
+          <!-- Point: 1 -->
+          <div *ngIf="showLoader">
+            <loaders-css [loader]="'pacman'" [loaderClass]="'my-loader'"></loaders-css>
+          </div>
+          <div *ngFor="let message of messages | async">
+            <!-- Point: 2 -->
+            <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+              <img [src]="message.photoURL" class="img-circle">
+              <p>{{ message.message|emojify }}</p>
+              <div class="author">
+                {{ message.displayName }} | {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <figure class="highlight">
+          <simple-notifications></simple-notifications>
+          <span>Emojified: {{newMessage|emojify}}</span>
+          <div class="row">
+            <div class="col-md-10">
+              <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+            </div>
+            <div class="col-md-2" style="position: absolute;right: -13px;bottom: 35px;">
+              <button md-fab class="btn-success" (click)="sendMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </div>
+    <!--get back to public chat-->
+    <div class="dx-field">
+      <div class="dx-field-value-static">
+        <a id="link3" (mouseenter)="toggleWithBackOptions()" (mouseleave)="toggleWithBackOptions()" (click)="goBack()" md-fab style="position: absolute;right: 75px;bottom: 483px;background-color: #5cb85c;">
+          <i class="fa fa-fast-backward" aria-hidden="true"></i>
+        </a>
+        <dx-popover target="#link3" position="top" [width]="300" [(visible)]="withBackOptionsVisible">
+          <dxo-animation>
+            <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+            <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+          </dxo-animation>
+          <div *dxTemplate="let data = model of 'content'">
+            <div style="text-align:center">
+              <span>Get Back</span>
+            </div>
+          </div>
+        </dx-popover>
+      </div>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-value-static">
+        <a id="link4" (mouseenter)="toggleWithAnimationOptions()" (mouseleave)="toggleWithAnimationOptions()" (click)="showUsers()"
+          md-fab style="position: absolute;right: 75px;bottom: 400px;background-color: #5cb85c;">
+          <i class="fa fa-plus-square" style="color:#fff" aria-hidden="true"></i>
+          </a>
+          <dx-popover target="#link4" position="top" [width]="300" [(visible)]="withAnimationOptionsVisible">
+            <dxo-animation>
+              <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+              <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+            </dxo-animation>
+            <div *dxTemplate="let data = model of 'content'">
+              <div style="text-align:center">
+                <span>Click to add users to this room</span>
+              </div>
+            </div>
+          </dx-popover>
+      </div>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-value-static">
+        <a id="link5" (mouseenter)="userAvailableAnimationOptions()" (mouseleave)="userAvailableAnimationOptions()" (click)="showUsersAvailable()"
+          md-fab style="position: absolute;right: 75px;bottom: 300px;background-color: #5cb85c;">
+          <i class="fa fa-users" style="color:#fff" aria-hidden="true"></i>
+          </a>
+          <dx-popover target="#link5" position="top" [width]="300" [(visible)]="userAvailableVisible">
+            <dxo-animation>
+              <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+              <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+            </dxo-animation>
+            <div *dxTemplate="let data = model of 'content'">
+              <div style="text-align:center">
+                <span>Click to see users to this room</span>
+              </div>
+            </div>
+          </dx-popover>
+      </div>
+    </div>

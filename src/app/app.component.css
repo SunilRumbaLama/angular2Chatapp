@@ -1,0 +1,58 @@
+.example-container {
+  height: 100vh;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+    padding: 35px;
+    background: rgb(45, 56, 74);
+    z-index: 943;
+}
+.app-toolbar-menu {
+  padding: 0 14px 0 14px;
+  color: black;
+}
+.app-icon-button {
+  box-shadow: none;
+  user-select: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  filter: none;
+  font-weight: normal;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+}
+.img-circle {
+    border-radius: 50%;
+    width:50px;
+}
+.img-circlebig{
+   border-radius: 50%;
+    width:150px;
+    margin-left:20%;
+}
+.navColor{
+    background: rgb(45, 56, 74);
+    box-shadow: 0px 3px 5px grey;
+}
+.bubble{
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  box-shadow: 0 0 6px #B2B2B2;
+  display: inline-block;
+  padding: 10px 18px;
+  position: relative;
+  vertical-align: top;
+}

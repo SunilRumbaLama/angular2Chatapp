@@ -1,0 +1,159 @@
+<!--popup after the user clicks the users icon-->
+<dx-popup [width]="817" [height]="515" [showTitle]="true" title="Users Registered" [dragEnabled]="false" [closeOnOutsideClick]="true"
+  [(visible)]="popupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view #scrollView id="scrollview" [scrollByThumb]="true" [showScrollbar]="true">
+      <div *ngFor="let user of users | async">
+        <div *ngIf="user.email != loggedInUserEmail">
+          <md-card style="overflow:hidden">
+            <div style="float:left;width:150px;height:150px;padding-right:10px">
+              <div style="border-right:1px solid#3b5998">
+                <img [src]="user.photoURL" style="width: 100px;height: 100px;border-radius: 50%;" />
+              </div>
+            </div>
+            <div style="float:left">
+              <p>
+                Display Name:
+                <span>{{user.displayName}}</span>
+              </p>
+              <p>
+                Email:
+                <span>{{user.email}}</span>
+              </p>
+              <p>
+                Private Message:
+                <button md-fab class="btn-success" (click)="createPrivateRoom(user.uid,user.displayName,user.email,user.photoURL)">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+              </button>
+              </p>
+            </div>
+          </md-card>
+        </div>
+        <br>
+      </div>
+    </dx-scroll-view>
+  </div>
+  </dx-popup>
+  <!--start of the message content-->
+  <div style="position:fixed;top:73px;left:15px">
+    <iframe width="250" height="250" src="https://www.youtube.com/embed/wgAIUxZhvus" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div style="position:fixed;top:330px;left:15px">
+    <iframe width="250" height="250" src="https://www.youtube.com/embed/hp1iM-dr5Ho" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div class="row" style="width: 90%;margin-left: 6%;">
+    <div class="col-md-8 col-md-offset-2">
+      <div #scrollMe class="bs-example" id="messages">
+        <div *ngIf="showLoader">
+          <loaders-css [loader]="'pacman'" [loaderClass]="'my-loader'"></loaders-css>
+        </div>
+        <!-- Point: 1 -->
+        <div *ngFor="let message of messages | async">
+          <!-- Point: 2 -->
+          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+            <img [src]="message.photoURL" class="img-circle">
+            <p>{{ message.message|emojify }}</p>
+            <div class="author">
+              {{ message.displayName }} | {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <figure class="highlight">
+        <simple-notifications></simple-notifications>
+        <span>Emojified: {{newMessage|emojify}}</span>
+        <div class="row">
+          <div class="col-md-10">
+            <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+          </div>
+          <div class="col-md-2" style="position: absolute;right: -13px;bottom: 35px;">
+            <button md-fab class="btn-success" (click)="sendMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </div>
+  <!--end of the message container-->
+  <!--fab buttons later will be replaced fabs speed dial-->
+  <div class="dx-field">
+    <div class="dx-field-value-static">
+      <a id="link3" (mouseenter)="toggleWithAnimationOptions()" (mouseleave)="toggleWithAnimationOptions()" (click)="showUsers(users)"
+        md-fab style="position: absolute;right: 75px;bottom: 483px;background-color: #5cb85c;">
+        <i class="fa fa-users" style="color:#fff" aria-hidden="true"></i>
+        </a>
+        <dx-popover target="#link3" position="top" [width]="300" [(visible)]="withAnimationOptionsVisible">
+          <dxo-animation>
+            <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+            <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+          </dxo-animation>
+          <div *dxTemplate="let data = model of 'content'">
+            <div style="text-align:center">
+              <span>Click it to get list of registered Users</span>
+            </div>
+          </div>
+        </dx-popover>
+    </div>
+  </div>
+  <!--<div class="dx-field">
+    <div class="dx-field-value-static">
+      <p>
+        <a id="link4" target="_blank" href="https://www.facebook.com/alexRumbaLama" (mouseenter)="toggleFacebookInfoOptions()" (mouseleave)="toggleFacebookInfoOptions()"
+          md-fab style="position: absolute;right: 75px;bottom: 285px;background-color: #3b5998;">
+          <i class="fa fa-facebook-official" style="color:#fff" aria-hidden="true"></i>
+          </a>
+      </p>
+      <dx-popover target="#link4" position="top" [width]="300" [(visible)]="facebookInfoVisible">
+        <dxo-animation>
+          <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <div *dxTemplate="let data = model of 'content'">
+          <div style="text-align:center">
+            <span>Developer's facebook account</span>
+          </div>
+        </div>
+      </dx-popover>
+    </div>
+  </div>
+  <div class="dx-field">
+    <div class="dx-field-value-static">
+      <p>
+        <a id="link5" md-fab target="_blank" (mouseenter)="toggleTwitterInfoOptions()" (mouseleave)="toggleTwitterInfoOptions()"
+          href="https://twitter.com/rumba_alex" style="position: absolute;right: 75px;bottom: 496px;background-color: #3b5998;">
+          <i class="fa fa-twitter" style="color:#fff" aria-hidden="true"></i>
+          </a>
+      </p>
+      <dx-popover target="#link5" position="top" [width]="300" [(visible)]="twitterInfoVisible">
+        <dxo-animation>
+          <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <div *dxTemplate="let data = model of 'content'">
+          <div style="text-align:center">
+            <span>Developer's twitter account</span>
+          </div>
+        </div>
+      </dx-popover>
+    </div>
+  </div>
+  <div class="dx-field">
+    <div class="dx-field-value-static">
+      <p>
+        <a id="link6" md-fab target="_blank" (mouseenter)="toggleStackInfoOptions()" (mouseleave)="toggleStackInfoOptions()" href="http://stackoverflow.com/users/5523066/sunil-lama?tab=profile"
+          style="position: absolute;right: 75px;bottom: 460px;background-color: rgb(45, 56, 74);">
+          <i class="fa fa-stack-overflow" style="color:orange" aria-hidden="true"></i>
+          </a>
+      </p>
+      <dx-popover target="#link6" position="top" [width]="300" [(visible)]="stackInfoVisible">
+        <dxo-animation>
+          <dxo-show type="pop" [from]="{ scale: 0 }" [to]="{ scale: 1 }"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <div *dxTemplate="let data = model of 'content'">
+          <div style="text-align:center">
+            <span>Developer's stackoverflow account</span>
+          </div>
+        </div>
+      </dx-popover>
+    </div>
+  </div>-->

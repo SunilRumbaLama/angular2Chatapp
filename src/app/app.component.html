@@ -1,0 +1,43 @@
+<md-sidenav-container class="example-container" style="background-color: rgba(128, 128, 128, 0.17);">
+  <nav class="navbar navColor ">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" *ngIf="afService.chatStatusPublic">
+        <button *ngIf="isLoggedIn" class="app-icon-button" (click)="sidenav.toggle()">
+            <img [src]="photoURL" class="img-circle" />
+          </button> Public Chat </a>
+      <a class="navbar-brand" *ngIf="afService.chatStatusPrivate">
+        <button *ngIf="isLoggedIn" class="app-icon-button" (click)="sidenav.toggle()">
+                <img [src]="photoURL" class="img-circle" />
+              </button> Private Chat </a>
+    </div>
+    <div *ngIf="isLoggedIn">
+      <ul class="nav navbar-nav navbar-right navbar-brand">
+        <a (click)="home()" style="cursor: pointer;text-decoration: none;margin-right:10px"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
+      </ul>
+    </div>
+  </nav>
+  <md-sidenav #sidenav class="example-sidenav">
+    <img [src]="photoURL" class="img-circlebig" />
+    <br>
+    <br>
+    <br>
+    <span class="bubble">
+      <p><i class="fa fa-user-circle-o" aria-hidden="true"></i>| {{this.displayName}}</p>
+      <p><i class="fa fa-envelope-o" aria-hidden="true"></i>| {{this.loggedUser}}</p>
+      <p><a (click)="inbox();sidenav.toggle()" style="cursor:pointer;text-decoration: none"><i class="fa fa-inbox" aria-hidden="true"></i> Inbox</a></p>
+      <p><a (click)="userGroup();sidenav.toggle()" style="cursor:pointer;text-decoration: none"><i class="fa fa-inbox" aria-hidden="true"></i> Groups</a></p>
+      <p><a (click)="logout();sidenav.toggle()" style="cursor:pointer;text-decoration: none"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></p>
+</span>
+  </md-sidenav>
+  <div class="app-content">
+    <router-outlet></router-outlet>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- NepalChatApp -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2356797657851127" data-ad-slot="3946982090" data-ad-format="auto"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+
+    </script>
+  </div>
+</md-sidenav-container>
