@@ -3,20 +3,18 @@
 Run `npm install` to install all the dependencies.
 
 ## Create a project in firebase. Navigate to app/src/app.module.ts
-export const firebaseConfig = {
-  apiKey: 'yourapikey',
-  authDomain: 'your authDomain',
-  databaseURL: 'yourdatabaseurl',
-  storageBucket: 'yourStorageBucket',
-  messagingSenderId: 'yourid'
-};
+export const firebaseConfig = { <br/>
+  apiKey: 'yourapikey',<br/>
+  authDomain: 'your authDomain',<br/>
+  databaseURL: 'yourdatabaseurl',<br/>
+  storageBucket: 'yourStorageBucket',<br/>
+  messagingSenderId: 'yourid'<br/>
+};<br/>
+
+Changing the keys to your firebase application will get you up and running.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
 ## Build
 
