@@ -1,5 +1,10 @@
 # NepalChatApp
 
+DEMO: [NepalChatApp](https://chatapp-a9558.firebaseapp.com/)
+
+Run `npm uninstall -g angular-cli` </br>
+Run `npm cache clean`</br>
+Run `npm install -g angular-cli@1.0.0-beta.21`</br>
 Run `npm install` to install all the dependencies.
 
 ## Create a project in firebase. Navigate to app/src/app.module.ts
